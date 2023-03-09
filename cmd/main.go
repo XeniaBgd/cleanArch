@@ -7,6 +7,7 @@ import (
 	"log"
 
 	"github.com/XeniaBgd/CleanArch/internal/adapters/repository/mongodb"
+	"github.com/XeniaBgd/CleanArch/internal/application"
 	"github.com/XeniaBgd/CleanArch/internal/config"
 	"github.com/XeniaBgd/CleanArch/internal/domain/service"
 	book_usecase "github.com/XeniaBgd/CleanArch/internal/domain/usecase/book"
@@ -37,8 +38,13 @@ func main() {
 
 	serverHandler := gin.Default()
 	handler.Register(serverHandler)
-	server.StartServer(serverHandler, conf)
 
+	srv := server.NewServer(serverHandler, conf)
+	app := application.Application{
+		MainFunc: srv.Start,
+	}
+
+	fmt.Println(app.Run())
 }
 
 var ErrConfNotFound = errors.New("Flag 'conf' not found")
