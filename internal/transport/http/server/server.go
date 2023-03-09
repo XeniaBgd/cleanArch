@@ -4,15 +4,13 @@ import (
 	"context"
 	"log"
 	"net/http"
-
-	"github.com/XeniaBgd/CleanArch/internal/transport/http/server/params"
 )
 
 type HTTPServer struct {
 	Server http.Server
 }
 
-func NewServer(handler http.Handler, conf params.Conf) HTTPServer {
+func NewServer(handler http.Handler, conf Conf) HTTPServer {
 	return HTTPServer{
 		Server: http.Server{
 			Addr:         conf.Addr,

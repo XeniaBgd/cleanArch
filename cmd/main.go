@@ -13,7 +13,6 @@ import (
 	book_usecase "github.com/XeniaBgd/CleanArch/internal/domain/usecase/book"
 	http_v1 "github.com/XeniaBgd/CleanArch/internal/transport/http"
 	"github.com/XeniaBgd/CleanArch/internal/transport/http/server"
-	"github.com/XeniaBgd/CleanArch/internal/transport/http/server/params"
 	"github.com/gin-gonic/gin"
 )
 
@@ -23,8 +22,9 @@ func main() {
 		log.Fatal(err)
 	}
 
-	confData := config.MustReadFile(confPath)
-	conf := params.MustGetConfData(confData)
+	// confData := config.MustReadFile(confPath)
+	// conf := params.MustGetConfData(confData)
+	conf := config.MustGetConfData(confPath)
 	fmt.Println(conf)
 
 	bookStorage := mongodb.NewBookStorage(nil)
@@ -39,9 +39,10 @@ func main() {
 	serverHandler := gin.Default()
 	handler.Register(serverHandler)
 
-	srv := server.NewServer(serverHandler, conf)
+	srv := server.NewServer(serverHandler, conf.Srv)
 	app := application.Application{
 		MainFunc: srv.Start,
+		Conf:     conf.App,
 	}
 
 	fmt.Println(app.Run())

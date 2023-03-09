@@ -1,6 +1,11 @@
 {
-    "addr": ":8080",
-    "readTimeout": "10s",
-    "writeTimeout": "10s",
-    "idleTimeout": "1s"
+    "app": {
+        "interruptTimeout": "15s"
+    },
+    "server": {
+        "addr": ":8080",
+        "readTimeout": "10s",
+        "writeTimeout": "10s",
+        "idleTimeout": "1s"
+    }
 }

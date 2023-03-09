@@ -14,6 +14,7 @@ import (
 
 type Application struct {
 	MainFunc func(ctx context.Context, halt <-chan struct{}) error
+	Conf
 
 	appState int32
 	mux      sync.Mutex
@@ -122,7 +123,7 @@ func (a *Application) run(sig <-chan os.Signal) error {
 			log.Println("Get OS signal. Work interrupted")
 			a.Halt()
 			select {
-			case <-time.After(time.Second * 15):
+			case <-time.After(a.Conf.InterruptTimeout):
 				// завершение по таймауту
 				log.Println("Termination Timeout. Stop working...")
 				errHalt <- errTermTimeout
